@@ -35,7 +35,6 @@ fun HomeScreen(
     val currentRoute = navBackStackEntry.value?.destination?.route ?: "home"
 
     var busca by remember { mutableStateOf("") }
-
     val treinosFiltrados = treinosMock.filter {
         it.nome.contains(busca, ignoreCase = true)
     }
@@ -47,33 +46,25 @@ fun HomeScreen(
                 actions = {
                     IconButton(onClick = { expanded = true }) {
                         Icon(Icons.Default.MoreVert, contentDescription = "Menu")
-
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Favoritos") },
-                                onClick = {
-                                    expanded = false
-                                    navController.navigate("favoritos")
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Configurações") },
-                                onClick = {
-                                    expanded = false
-                                    navController.navigate("configuracoes")
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Ajuda") },
-                                onClick = {
-                                    expanded = false
-                                    navController.navigate("ajuda")
-                                }
-                            )
-                        }
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Favoritos") },
+                            onClick = {
+                                expanded = false
+                                navController.navigate("favoritos")
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Configurações") },
+                            onClick = {
+                                expanded = false
+                                navController.navigate("configuracoes")
+                            }
+                        )
                     }
                 }
             )

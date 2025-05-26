@@ -1,12 +1,15 @@
 package com.fernando.fitlife.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.fernando.fitlife.data.model.treinosMock
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
@@ -15,6 +18,7 @@ import com.fernando.fitlife.viewmodel.FavoritosViewModel
 @Composable
 fun DetalhesScreen(
     treinoId: Int,
+    navController: NavController,
     favoritosViewModel: FavoritosViewModel = viewModel()
 ) {
     val treino = treinosMock.find { it.id == treinoId } ?: return
@@ -23,7 +27,15 @@ fun DetalhesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(treino.nome) }
+                title = { Text(treino.nome) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Voltar"
+                        )
+                    }
+                }
             )
         }
     ) { padding ->

@@ -27,6 +27,7 @@ fun FitLifeNavGraph(
             val treinoId = backStackEntry.arguments?.getString("treinoId")?.toIntOrNull() ?: 0
             DetalhesScreen(
                 treinoId = treinoId,
+                navController = navController,  // ✅ Adicionado navController
                 favoritosViewModel = favoritosViewModel
             )
         }

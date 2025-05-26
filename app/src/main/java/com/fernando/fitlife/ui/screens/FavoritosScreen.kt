@@ -4,19 +4,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.fernando.fitlife.model.Treino
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 import com.fernando.fitlife.ui.components.BottomBar
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +32,14 @@ fun FavoritosScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Favoritos") })
+            TopAppBar(
+                title = { Text("Favoritos") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
         },
         bottomBar = {
             BottomBar(navController = navController, currentRoute = currentRoute)
