@@ -1,10 +1,13 @@
 package com.fernando.fitlife.ui.screens
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -59,9 +62,17 @@ fun AjudaScreen(navController: NavController) {
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(pergunta, style = MaterialTheme.typography.bodyLarge)
-                        if (expandedIndexes[index] == true) {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(resposta, style = MaterialTheme.typography.bodyMedium)
+
+                        // Animação de Expansão de Resposta
+                        AnimatedVisibility(
+                            visible = expandedIndexes[index] == true,
+                            enter = fadeIn(animationSpec = tween(durationMillis = 300)) + expandIn(initialSize = { IntSize(0, it.height) }),
+                            exit = fadeOut(animationSpec = tween(durationMillis = 300)) + shrinkOut(targetSize = { IntSize(0, 0) })
+                        ) {
+                            Column {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(resposta, style = MaterialTheme.typography.bodyMedium)
+                            }
                         }
                     }
                 }

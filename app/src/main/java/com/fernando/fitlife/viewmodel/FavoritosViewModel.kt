@@ -1,34 +1,30 @@
+// FavoritosViewModel.kt
 package com.fernando.fitlife.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.fernando.fitlife.model.Treino
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class FavoritosViewModel : ViewModel() {
+    private val _favoritos = MutableStateFlow<List<Treino>>(emptyList())
+    val favoritos: StateFlow<List<Treino>> = _favoritos
 
-    // Lista observável de treinos favoritos
-    private val _favoritos = mutableStateListOf<Treino>()
-    val favoritos: List<Treino> get() = _favoritos
+    fun isFavorito(treino: Treino): Boolean {
+        return _favoritos.value.any { it.id == treino.id }
+    }
 
-    // Adiciona um treino à lista de favoritos
     fun adicionar(treino: Treino) {
-        if (treino !in _favoritos) {
-            _favoritos.add(treino)
+        if (!isFavorito(treino)) {
+            _favoritos.value = _favoritos.value + treino
         }
     }
 
-    // Remove um treino da lista de favoritos
     fun remover(treino: Treino) {
-        _favoritos.remove(treino)
+        _favoritos.value = _favoritos.value.filter { it.id != treino.id }
     }
 
-    // Verifica se um treino está na lista de favoritos
-    fun isFavorito(treino: Treino): Boolean {
-        return treino in _favoritos
-    }
-
-    // Remove todos os favoritos
     fun limparTodos() {
-        _favoritos.clear()
+        _favoritos.value = emptyList()
     }
 }

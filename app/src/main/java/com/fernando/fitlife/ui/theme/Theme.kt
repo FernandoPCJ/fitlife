@@ -18,7 +18,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun FitLifeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(), // você pode controlar isso externamente
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme

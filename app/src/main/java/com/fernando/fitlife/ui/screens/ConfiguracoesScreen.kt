@@ -21,8 +21,8 @@ fun ConfiguracoesScreen(
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route ?: "configuracoes"
 
-    val darkTheme by preferenciasViewModel.darkTheme
-    val notificacoesAtivas by preferenciasViewModel.notificacoesAtivas
+    val darkTheme by preferenciasViewModel.darkTheme.collectAsState()
+    val notificacoesAtivas by preferenciasViewModel.notificacoesAtivas.collectAsState()
 
     Scaffold(
         topBar = {

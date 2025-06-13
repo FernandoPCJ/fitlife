@@ -1,11 +1,10 @@
-// FitLifeApp.kt
 package com.fernando.fitlife
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.fernando.fitlife.navigation.FitLifeNavGraph
@@ -19,7 +18,7 @@ fun FitLifeApp(
     preferenciasViewModel: PreferenciasViewModel
 ) {
     val navController = rememberNavController()
-    val isDarkTheme by preferenciasViewModel.darkTheme
+    val isDarkTheme = preferenciasViewModel.darkTheme.collectAsState(initial = false).value
 
     FitLifeTheme(darkTheme = isDarkTheme) {
         Surface(

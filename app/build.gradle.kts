@@ -43,26 +43,26 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.0" // ✅ ajuste conforme a versão usada
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
 }
 
 dependencies {
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-core:1.0.0")
+
     // Navegação Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // Coil para carregamento de imagens
-    implementation("io.coil-kt:coil-compose:2.5.0") // ✅ já está atualizado
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     // Ícones estendidos (material)
     implementation("androidx.compose.material:material-icons-extended")
 
     // Material 3 (para NavigationBar e novos componentes)
-//    implementation("androidx.compose.material3:material3:1.1.2")
-
-//    implementation ("androidx.compose.material3:material3:1.2.0")
-//
-
+    implementation("androidx.compose.material3:material3:1.2.0")
 
     // AndroidX Core
     implementation(libs.androidx.core.ktx)
@@ -76,9 +76,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-
-    // Compose Material 3 (repetido, mas mantido para segurança)
-    implementation(libs.androidx.material3)
 
     // Testes
     testImplementation(libs.junit)

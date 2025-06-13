@@ -8,38 +8,50 @@ import com.fernando.fitlife.ui.screens.*
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 import com.fernando.fitlife.viewmodel.PreferenciasViewModel
 
+object Routes {
+    const val HOME = "home"
+    const val DETALHES = "detalhes/{treinoId}"
+    const val FAVORITOS = "favoritos"
+    const val CONFIGURACOES = "configuracoes"
+    const val AJUDA = "ajuda"
+}
+
 @Composable
 fun FitLifeNavGraph(
     navController: NavHostController,
     favoritosViewModel: FavoritosViewModel,
     preferenciasViewModel: PreferenciasViewModel
 ) {
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = Routes.HOME) {
 
-        composable("home") {
+        composable(Routes.HOME) {
             HomeScreen(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel
             )
         }
 
-        composable("detalhes/{treinoId}") { backStackEntry ->
-            val treinoId = backStackEntry.arguments?.getString("treinoId")?.toIntOrNull() ?: 0
-            DetalhesScreen(
-                treinoId = treinoId,
-                navController = navController,  // ✅ Adicionado navController
-                favoritosViewModel = favoritosViewModel
-            )
+        composable(Routes.DETALHES) { backStackEntry ->
+            val treinoId = backStackEntry.arguments?.getString("treinoId")?.toIntOrNull()
+            if (treinoId != null) {
+                DetalhesScreen(
+                    treinoId = treinoId,
+                    navController = navController,
+                    favoritosViewModel = favoritosViewModel
+                )
+            } else {
+                navController.popBackStack()
+            }
         }
 
-        composable("favoritos") {
+        composable(Routes.FAVORITOS) {
             FavoritosScreen(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel
             )
         }
 
-        composable("configuracoes") {
+        composable(Routes.CONFIGURACOES) {
             ConfiguracoesScreen(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel,
@@ -47,7 +59,7 @@ fun FitLifeNavGraph(
             )
         }
 
-        composable("ajuda") {
+        composable(Routes.AJUDA) {
             AjudaScreen(navController = navController)
         }
     }

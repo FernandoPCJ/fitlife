@@ -1,28 +1,49 @@
 package com.fernando.fitlife.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.fernando.fitlife.repository.PreferenciasRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class PreferenciasViewModel : ViewModel() {
+class PreferenciasViewModel(
+    private val preferenciasRepository: PreferenciasRepository
+) : ViewModel() {
 
-    // 🔒 Encapsulamento: só a ViewModel pode modificar
-    private val _darkTheme = mutableStateOf(false)
-    val darkTheme: State<Boolean> get() = _darkTheme
+    val darkTheme: StateFlow<Boolean> = preferenciasRepository.darkMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    private val _notificacoesAtivas = mutableStateOf(true)
-    val notificacoesAtivas: State<Boolean> get() = _notificacoesAtivas
+    val notificacoesAtivas: StateFlow<Boolean> = preferenciasRepository.notificacoes
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val animacoesAtivas: StateFlow<Boolean> = preferenciasRepository.animacoes
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     fun toggleDarkMode() {
-        _darkTheme.value = !_darkTheme.value
+        viewModelScope.launch {
+            preferenciasRepository.setDarkMode(!darkTheme.value)
+        }
     }
 
     fun toggleNotificacoes() {
-        _notificacoesAtivas.value = !_notificacoesAtivas.value
+        viewModelScope.launch {
+            preferenciasRepository.setNotificacoes(!notificacoesAtivas.value)
+        }
+    }
+
+    fun toggleAnimacoes() {
+        viewModelScope.launch {
+            preferenciasRepository.setAnimacoes(!animacoesAtivas.value)
+        }
     }
 
     fun redefinir() {
-        _darkTheme.value = false
-        _notificacoesAtivas.value = true
+        viewModelScope.launch {
+            preferenciasRepository.setDarkMode(false)
+            preferenciasRepository.setNotificacoes(true)
+            preferenciasRepository.setAnimacoes(true)
+        }
     }
 }
