@@ -3,7 +3,7 @@ package com.fernando.fitlife.ui.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,7 +14,7 @@ data class BottomNavItem(val label: String, val route: String, val icon: ImageVe
 val bottomNavItems = listOf(
     BottomNavItem("Início", "home", Icons.Default.Home),
     BottomNavItem("Favoritos", "favoritos", Icons.Default.Favorite),
-    BottomNavItem("Ajuda", "ajuda", Icons.Default.Help), // Alterado aqui
+    BottomNavItem("Assistente", "assistente", Icons.Default.SmartToy) // substituído
 )
 
 @Composable

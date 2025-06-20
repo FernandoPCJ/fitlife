@@ -65,6 +65,13 @@ fun HomeScreen(
                                 navController.navigate("configuracoes")
                             }
                         )
+                        DropdownMenuItem(
+                            text = { Text("Ajuda") },
+                            onClick = {
+                                expanded = false
+                                navController.navigate("ajuda")
+                            }
+                        )
                     }
                 }
             )

@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import com.fernando.fitlife.ui.screens.*
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 import com.fernando.fitlife.viewmodel.PreferenciasViewModel
+import com.fernando.fitlife.ui.screens.AssistenteScreen
+
 
 @Composable
 fun FitLifeNavGraph(
@@ -27,7 +29,7 @@ fun FitLifeNavGraph(
             val treinoId = backStackEntry.arguments?.getString("treinoId")?.toIntOrNull() ?: 0
             DetalhesScreen(
                 treinoId = treinoId,
-                navController = navController,  // ✅ Adicionado navController
+                navController = navController,
                 favoritosViewModel = favoritosViewModel
             )
         }
@@ -49,6 +51,10 @@ fun FitLifeNavGraph(
 
         composable("ajuda") {
             AjudaScreen(navController = navController)
+        }
+
+        composable("assistente") {
+            AssistenteScreen() // ⚠️ Certifique-se de criar essa tela
         }
     }
 }
