@@ -5,7 +5,7 @@
 
     <!-- Permissão de internet para carregar imagens via URL -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Registro do BroadcastReceiver para alarmes/notifications -->
+        <receiver android:name=".AlarmReceiver" android:exported="false" />
 
     </application>
 </manifest>

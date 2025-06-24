@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,6 +20,8 @@ import coil.compose.AsyncImage
 import com.fernando.fitlife.data.model.treinosMock
 import com.fernando.fitlife.model.Treino
 import com.fernando.fitlife.ui.components.BottomBar
+import com.fernando.fitlife.ui.components.BotaoFavorito
+import com.fernando.fitlife.ui.components.DetalheItem
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -119,31 +119,43 @@ fun TreinoCard(
     onToggleFavorito: () -> Unit,
     onClick: () -> Unit
 ) {
+    var mostrarDetalhes by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() }
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
-        ) {
-            AsyncImage(
-                model = treino.imagemUrl,
-                contentDescription = treino.nome,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(100.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(treino.nome, fontWeight = FontWeight.Bold)
-                Text("${treino.duracaoMin} min • ${treino.nivel}")
+            .clickable {
+                mostrarDetalhes = !mostrarDetalhes
+                onClick()
             }
-            IconButton(onClick = { onToggleFavorito() }) {
-                Icon(
-                    imageVector = if (isFavorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = if (isFavorito) "Remover dos favoritos" else "Adicionar aos favoritos"
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                AsyncImage(
+                    model = treino.imagemUrl,
+                    contentDescription = treino.nome,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(100.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(treino.nome, fontWeight = FontWeight.Bold)
+                    Text("${treino.duracaoMin} min • ${treino.nivel}")
+                }
+
+                // Animação de favorito
+                BotaoFavorito(
+                    isFavorito = isFavorito,
+                    onClick = onToggleFavorito
+                )
+            }
+
+            // Animação de exibição de detalhes
+            DetalheItem(visible = mostrarDetalhes) {
+                Text(
+                    text = treino.descricao ?: "Sem descrição.",
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
         }

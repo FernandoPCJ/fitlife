@@ -13,6 +13,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.fernando.fitlife.data.model.treinosMock
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
+import com.fernando.fitlife.ui.components.BotaoFavorito
+import com.fernando.fitlife.ui.components.DetalheItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,6 +24,8 @@ fun DetalhesScreen(
     favoritosViewModel: FavoritosViewModel = viewModel()
 ) {
     val treino = treinosMock.find { it.id == treinoId } ?: return
+    var mostrarDescricao by remember { mutableStateOf(true) }
+
     val isFavorito by remember { derivedStateOf { favoritosViewModel.isFavorito(treino) } }
 
     Scaffold(
@@ -35,6 +39,18 @@ fun DetalhesScreen(
                             contentDescription = "Voltar"
                         )
                     }
+                },
+                actions = {
+                    BotaoFavorito(
+                        isFavorito = isFavorito,
+                        onClick = {
+                            if (isFavorito) {
+                                favoritosViewModel.remover(treino)
+                            } else {
+                                favoritosViewModel.adicionar(treino)
+                            }
+                        }
+                    )
                 }
             )
         }
@@ -55,22 +71,20 @@ fun DetalhesScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text(treino.descricao, style = MaterialTheme.typography.bodyLarge)
 
-            Spacer(modifier = Modifier.height(12.dp))
+            TextButton(
+                onClick = { mostrarDescricao = !mostrarDescricao }
+            ) {
+                Text(if (mostrarDescricao) "Ocultar descrição" else "Mostrar descrição")
+            }
+
+            DetalheItem(visible = mostrarDescricao) {
+                Text(treino.descricao, style = MaterialTheme.typography.bodyLarge)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
             Text("Duração: ${treino.duracaoMin} minutos")
             Text("Nível: ${treino.nivel}")
-
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {
-                if (isFavorito) {
-                    favoritosViewModel.remover(treino)
-                } else {
-                    favoritosViewModel.adicionar(treino)
-                }
-            }) {
-                Text(if (isFavorito) "Remover dos Favoritos" else "Adicionar aos Favoritos")
-            }
         }
     }
 }
