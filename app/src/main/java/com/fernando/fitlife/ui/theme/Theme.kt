@@ -5,27 +5,34 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Primary,
+    secondary = Secondary,
+    background = BackgroundLight,
+    surface = SurfaceLight,
+    onPrimary = OnPrimary,
+    onSecondary = OnSecondary
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Primary,
+    secondary = Secondary,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    onPrimary = OnPrimary,
+    onSecondary = OnSecondary
 )
 
 @Composable
 fun FitLifeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(), // você pode controlar isso externamente
+    darkTheme: Boolean = isSystemInDarkTheme(), // ou passe via ViewModel se preferir
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = FitLifeTypography,
+        shapes = FitLifeShapes,
         content = content
     )
 }

@@ -10,27 +10,25 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fernando.fitlife.ui.components.BottomBar
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
-import com.fernando.fitlife.viewmodel.PreferenciasViewModel
+import com.fernando.fitlife.viewmodel.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfiguracoesScreen(
     navController: NavController,
     favoritosViewModel: FavoritosViewModel,
-    preferenciasViewModel: PreferenciasViewModel
+    settingsViewModel: SettingsViewModel
 ) {
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route ?: "configuracoes"
 
-    val darkTheme by preferenciasViewModel.darkTheme
-    val notificacoesAtivas by preferenciasViewModel.notificacoesAtivas
+    val darkTheme by settingsViewModel.darkMode.collectAsState()
+    val notificacoes by settingsViewModel.notifications.collectAsState()
     val isLoading by favoritosViewModel.isLoading.collectAsState()
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Configurações") }
-            )
+            TopAppBar(title = { Text("Configurações") })
         },
         bottomBar = {
             BottomBar(navController = navController, currentRoute = currentRoute)
@@ -59,7 +57,7 @@ fun ConfiguracoesScreen(
                         Text("Modo Escuro")
                         Switch(
                             checked = darkTheme,
-                            onCheckedChange = { preferenciasViewModel.toggleDarkMode() }
+                            onCheckedChange = { settingsViewModel.setDarkMode(!darkTheme) }
                         )
                     }
 
@@ -69,8 +67,8 @@ fun ConfiguracoesScreen(
                     ) {
                         Text("Notificações")
                         Switch(
-                            checked = notificacoesAtivas,
-                            onCheckedChange = { preferenciasViewModel.toggleNotificacoes() }
+                            checked = notificacoes,
+                            onCheckedChange = { settingsViewModel.setNotifications(!notificacoes) }
                         )
                     }
 
@@ -83,13 +81,6 @@ fun ConfiguracoesScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Limpar Favoritos")
-                    }
-
-                    Button(
-                        onClick = { preferenciasViewModel.redefinir() },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Redefinir Preferências")
                     }
                 }
             }

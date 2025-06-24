@@ -6,15 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fernando.fitlife.ui.screens.*
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
-import com.fernando.fitlife.viewmodel.PreferenciasViewModel
-import com.fernando.fitlife.ui.screens.AssistenteScreen
-
+import com.fernando.fitlife.viewmodel.SettingsViewModel
 
 @Composable
 fun FitLifeNavGraph(
     navController: NavHostController,
     favoritosViewModel: FavoritosViewModel,
-    preferenciasViewModel: PreferenciasViewModel
+    settingsViewModel: SettingsViewModel
 ) {
     NavHost(navController = navController, startDestination = "home") {
 
@@ -45,7 +43,7 @@ fun FitLifeNavGraph(
             ConfiguracoesScreen(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel,
-                preferenciasViewModel = preferenciasViewModel
+                settingsViewModel = settingsViewModel // ✅ Agora usando apenas SettingsViewModel
             )
         }
 
@@ -54,7 +52,7 @@ fun FitLifeNavGraph(
         }
 
         composable("assistente") {
-            AssistenteScreen() // ⚠️ Certifique-se de criar essa tela
+            AssistenteScreen()
         }
     }
 }
