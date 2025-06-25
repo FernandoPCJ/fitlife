@@ -13,11 +13,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.fernando.fitlife.ui.FitLifeApp
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
+import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import com.fernando.fitlife.viewmodel.SettingsViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val favoritosViewModel: FavoritosViewModel by viewModels()
+    private val favoritosPersonalViewModel: FavoritosPersonalViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FitLifeApp(
                 favoritosViewModel = favoritosViewModel,
+                favoritosPersonalViewModel = favoritosPersonalViewModel,
                 settingsViewModel = settingsViewModel
             )
         }

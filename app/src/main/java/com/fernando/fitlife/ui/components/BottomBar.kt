@@ -14,7 +14,7 @@ data class BottomNavItem(val label: String, val route: String, val icon: ImageVe
 val bottomNavItems = listOf(
     BottomNavItem("Início", "home", Icons.Default.Home),
     BottomNavItem("Favoritos", "favoritos", Icons.Default.Favorite),
-    BottomNavItem("Assistente", "assistente", Icons.Default.SmartToy) // substituído
+    BottomNavItem("Personal", "personais", Icons.Default.SmartToy) // substituído
 )
 
 @Composable

@@ -6,12 +6,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fernando.fitlife.ui.screens.*
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
+import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import com.fernando.fitlife.viewmodel.SettingsViewModel
 
 @Composable
 fun FitLifeNavGraph(
     navController: NavHostController,
     favoritosViewModel: FavoritosViewModel,
+    favoritosPersonalViewModel: FavoritosPersonalViewModel,
     settingsViewModel: SettingsViewModel
 ) {
     NavHost(navController = navController, startDestination = "home") {
@@ -35,7 +37,8 @@ fun FitLifeNavGraph(
         composable("favoritos") {
             FavoritosScreen(
                 navController = navController,
-                favoritosViewModel = favoritosViewModel
+                favoritosViewModel = favoritosViewModel,
+                favoritosPersonalViewModel = favoritosPersonalViewModel // ✅ Adicionado
             )
         }
 
@@ -43,16 +46,19 @@ fun FitLifeNavGraph(
             ConfiguracoesScreen(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel,
-                settingsViewModel = settingsViewModel // ✅ Agora usando apenas SettingsViewModel
+                settingsViewModel = settingsViewModel
+            )
+        }
+
+        composable("personais") {
+            PersonaisScreen(
+                navController = navController,
+                favoritosViewModel = favoritosPersonalViewModel
             )
         }
 
         composable("ajuda") {
             AjudaScreen(navController = navController)
-        }
-
-        composable("assistente") {
-            AssistenteScreen()
         }
     }
 }

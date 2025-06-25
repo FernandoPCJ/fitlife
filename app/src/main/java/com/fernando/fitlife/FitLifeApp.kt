@@ -11,11 +11,13 @@ import androidx.navigation.compose.rememberNavController
 import com.fernando.fitlife.navigation.FitLifeNavGraph
 import com.fernando.fitlife.ui.theme.FitLifeTheme
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
+import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import com.fernando.fitlife.viewmodel.SettingsViewModel
 
 @Composable
 fun FitLifeApp(
     favoritosViewModel: FavoritosViewModel,
+    favoritosPersonalViewModel: FavoritosPersonalViewModel, // ✅ Adicionado
     settingsViewModel: SettingsViewModel
 ) {
     val navController = rememberNavController()
@@ -29,6 +31,7 @@ fun FitLifeApp(
             FitLifeNavGraph(
                 navController = navController,
                 favoritosViewModel = favoritosViewModel,
+                favoritosPersonalViewModel = favoritosPersonalViewModel, // ✅ Adicionado
                 settingsViewModel = settingsViewModel
             )
         }
