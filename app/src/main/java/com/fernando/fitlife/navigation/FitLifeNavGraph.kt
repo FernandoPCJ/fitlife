@@ -5,32 +5,61 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fernando.fitlife.ui.screens.*
+import com.fernando.fitlife.ui.screens.auth.LoginScreen
+import com.fernando.fitlife.ui.screens.auth.RegisterScreen
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import com.fernando.fitlife.viewmodel.SettingsViewModel
+import com.fernando.fitlife.viewmodel.AuthViewModel
+import com.fernando.fitlife.viewmodel.TrainerViewModel
+import com.fernando.fitlife.viewmodel.WorkoutsViewModel
 
 @Composable
 fun FitLifeNavGraph(
     navController: NavHostController,
     favoritosViewModel: FavoritosViewModel,
     favoritosPersonalViewModel: FavoritosPersonalViewModel,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    authViewModel: AuthViewModel,
+    trainerViewModel: TrainerViewModel,
+    workoutsViewModel: WorkoutsViewModel
 ) {
-    NavHost(navController = navController, startDestination = "home") {
+    val startDestination = if (authViewModel.currentUser == null) "login" else "home"
+    NavHost(navController = navController, startDestination = startDestination) {
+
+        composable("login") {
+            LoginScreen(navController = navController, authViewModel = authViewModel)
+        }
+
+        composable("register") {
+            RegisterScreen(navController = navController, authViewModel = authViewModel)
+        }
+
+        composable("trainer") {
+            TrainerMenuScreen(
+                navController = navController,
+                trainerViewModel = trainerViewModel,
+                authViewModel = authViewModel
+            )
+        }
 
         composable("home") {
             HomeScreen(
                 navController = navController,
-                favoritosViewModel = favoritosViewModel
+                favoritosViewModel = favoritosViewModel,
+                authViewModel = authViewModel,
+                workoutsViewModel = workoutsViewModel,
+                trainerViewModel = trainerViewModel
             )
         }
 
         composable("detalhes/{treinoId}") { backStackEntry ->
-            val treinoId = backStackEntry.arguments?.getString("treinoId")?.toIntOrNull() ?: 0
+            val treinoId = backStackEntry.arguments?.getString("treinoId") ?: ""
             DetalhesScreen(
                 treinoId = treinoId,
                 navController = navController,
-                favoritosViewModel = favoritosViewModel
+                favoritosViewModel = favoritosViewModel,
+                workoutsViewModel = workoutsViewModel
             )
         }
 
@@ -53,7 +82,8 @@ fun FitLifeNavGraph(
         composable("personais") {
             PersonaisScreen(
                 navController = navController,
-                favoritosViewModel = favoritosPersonalViewModel
+                favoritosViewModel = favoritosPersonalViewModel,
+                trainerViewModel = trainerViewModel
             )
         }
 

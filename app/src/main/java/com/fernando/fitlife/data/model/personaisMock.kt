@@ -9,20 +9,20 @@ val personaisMock = listOf(
         nome = "homer simpson",
         especialidade = "Hipertrofia",
         descricao = "Treinador com foco em musculação e ganho de massa.",
-        imagemUrl = R.drawable.personal1
+        imagemUrl = ""
     ),
     Personal(
         id = 2,
         nome = "johnny bravo",
         especialidade = "Emagrecimento",
         descricao = "Ajuda você a perder peso de forma saudável.",
-         imagemUrl = R.drawable.personal2
+         imagemUrl = ""
     ),
     Personal(
         id = 3,
         nome = "pai do chris",
         especialidade = "Corrida",
         descricao = "Especialista em performance e resistência.",
-         imagemUrl = R.drawable.personal3
-    )
+         imagemUrl = ""
+)
 )

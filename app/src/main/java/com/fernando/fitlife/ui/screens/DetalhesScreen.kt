@@ -11,19 +11,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.fernando.fitlife.data.model.treinosMock
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
+import com.fernando.fitlife.viewmodel.WorkoutsViewModel
 import com.fernando.fitlife.ui.components.BotaoFavorito
 import com.fernando.fitlife.ui.components.DetalheItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalhesScreen(
-    treinoId: Int,
+    treinoId: String,
     navController: NavController,
-    favoritosViewModel: FavoritosViewModel = viewModel()
+    favoritosViewModel: FavoritosViewModel = viewModel(),
+    workoutsViewModel: WorkoutsViewModel = viewModel()
 ) {
-    val treino = treinosMock.find { it.id == treinoId } ?: return
+    val treino = workoutsViewModel.workouts.find { it.id == treinoId } ?: return
     var mostrarDescricao by remember { mutableStateOf(true) }
 
     val isFavorito by remember { derivedStateOf { favoritosViewModel.isFavorito(treino) } }

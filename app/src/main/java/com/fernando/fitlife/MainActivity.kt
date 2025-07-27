@@ -11,26 +11,40 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.fernando.fitlife.ui.FitLifeApp
 import com.fernando.fitlife.viewmodel.FavoritosViewModel
 import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import com.fernando.fitlife.viewmodel.SettingsViewModel
+import com.fernando.fitlife.viewmodel.AuthViewModel
+import com.fernando.fitlife.viewmodel.TrainerViewModel
+import com.fernando.fitlife.viewmodel.WorkoutsViewModel
+import com.fernando.fitlife.worker.SyncWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
 
     private val favoritosViewModel: FavoritosViewModel by viewModels()
     private val favoritosPersonalViewModel: FavoritosPersonalViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+    private val trainerViewModel: TrainerViewModel by viewModels()
+    private val workoutsViewModel: WorkoutsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
+        scheduleSync()
 
         setContent {
             FitLifeApp(
                 favoritosViewModel = favoritosViewModel,
                 favoritosPersonalViewModel = favoritosPersonalViewModel,
-                settingsViewModel = settingsViewModel
+                settingsViewModel = settingsViewModel,
+                authViewModel = authViewModel,
+                trainerViewModel = trainerViewModel,
+                workoutsViewModel = workoutsViewModel
             )
         }
     }
@@ -45,6 +59,12 @@ class MainActivity : ComponentActivity() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel)
         }
+    }
+
+    private fun scheduleSync() {
+        val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(this).enqueue(syncRequest)
     }
 
     fun scheduleAlarm(triggerAtMillis: Long) {

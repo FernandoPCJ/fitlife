@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "448945622360",
+    "firebase_url": "https://fitlife-f812c-default-rtdb.firebaseio.com",
+    "project_id": "fitlife-f812c",
+    "storage_bucket": "fitlife-f812c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448945622360:android:6e9ed180051129b310a92d",
+        "android_client_info": {
+          "package_name": "com.fernando.fitlife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPFj5HqpCg3zWs6jmJB1anoIp1aKAjYfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

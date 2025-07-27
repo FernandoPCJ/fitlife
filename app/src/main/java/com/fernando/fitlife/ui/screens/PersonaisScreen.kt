@@ -15,19 +15,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.fernando.fitlife.data.model.personaisMock
 import com.fernando.fitlife.model.Personal
 import com.fernando.fitlife.viewmodel.FavoritosPersonalViewModel
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.LocalContentColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonaisScreen(
     navController: NavController,
-    favoritosViewModel: FavoritosPersonalViewModel
+    favoritosViewModel: FavoritosPersonalViewModel,
+    trainerViewModel: com.fernando.fitlife.viewmodel.TrainerViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val favoritos by favoritosViewModel.favoritos.collectAsState()
+    val trainers = trainerViewModel.trainers
+
+    LaunchedEffect(Unit) {
+        trainerViewModel.loadTrainers()
+    }
 
     Scaffold(
         topBar = {
@@ -55,7 +60,7 @@ fun PersonaisScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(personaisMock) { personal ->
+            items(trainers) { personal ->
                 PersonalCard(
                     personal = personal,
                     favoritosViewModel = favoritosViewModel
